@@ -1,7 +1,5 @@
 package com.team3418.frc2016;
 
-import java.util.Set;
-
 // import classes used in main robot program
 import com.team3418.frc2016.Constants;
 import com.team3418.frc2016.subsystems.*;
