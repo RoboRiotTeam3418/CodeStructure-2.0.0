@@ -1,8 +1,8 @@
 package com.team3418.frc2016.subsystems;
 
 import com.team3418.frc2016.Constants;
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import com.ctre.*;
+import com.ctre.CANTalon.TalonControlMode;
 
 public class UtilityArms extends Subsystem
 {

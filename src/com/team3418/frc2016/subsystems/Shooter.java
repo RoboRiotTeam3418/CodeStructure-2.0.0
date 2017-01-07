@@ -1,11 +1,8 @@
 package com.team3418.frc2016.subsystems;
 
-import java.awt.print.Printable;
-
 import com.team3418.frc2016.Constants;
-
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import com.ctre.*;
+import com.ctre.CANTalon.TalonControlMode;
 
 public class Shooter extends Subsystem
 {
@@ -112,10 +109,4 @@ public class Shooter extends Subsystem
 		mRightShooterMotor.set(right);
 	}
 	
-	private void spoolUpSpeed() {
-		setSpeed(-1,1);
-	}
-	private void intakeSpeed() {
-		setSpeed(.5, -.5);
-	}
 }
