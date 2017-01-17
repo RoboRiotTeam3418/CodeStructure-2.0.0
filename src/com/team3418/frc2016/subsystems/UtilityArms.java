@@ -32,11 +32,6 @@ public class UtilityArms extends Subsystem
     }
 	
 	private UtilityArmsState mUtilityArmsState;
-
-	public void setUtilityArmsState(UtilityArmsState state)
-	{
-		mUtilityArmsState = state;
-	}
 	
 	public UtilityArmsState getUtilityArmState() {
 		return mUtilityArmsState;
@@ -61,10 +56,29 @@ public class UtilityArms extends Subsystem
 		}
 	}
 	
+	public void armsBackwards(){
+		mUtilityArmsState = UtilityArmsState.ARMS_BACKWARDS;
+	}
+	
+	public void armsForwards(){
+		mUtilityArmsState = UtilityArmsState.ARMS_FORWARD;
+	}
+	
+	public void stopArms(){
+		mUtilityArmsState = UtilityArmsState.ARMS_STOP;
+	}
+	
+	
 	
 	private void setArmSpeed(double speed) {
 		//mLeftArm.set(speed);
 		mRightArm.set(-speed);
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

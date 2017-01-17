@@ -25,14 +25,6 @@ public class Tilter extends Subsystem
 	
 	private TilterState mTilterState;
 	private TilterState mLastTilterState;
-
-	public void setTilterState(TilterState state)
-	{
-		if (state != mTilterState) {
-			mLastTilterState = mTilterState;
-		}
-		mTilterState = state;
-	}
 	
 	public TilterState getTilterState() {
 		return mTilterState;
@@ -47,13 +39,13 @@ public class Tilter extends Subsystem
 	{
 		switch(mTilterState) {
 		case TILTER_DOWN:
-			tilterDown();
+			tilterDownPosition();
 			break;
 		case TILTER_UP:
-			tilterUp();
+			tilterUpPosition();
 			break;
 		case NEUTRAL:
-			stopTilter();
+			stopTilterPosition();
 			break;
 		default:
 			mTilterState = TilterState.NEUTRAL;
@@ -61,20 +53,49 @@ public class Tilter extends Subsystem
 		}
 	}
 	
-	public void tilterUp() {
+	public void tilterDown(){
+		if (mTilterState != TilterState.TILTER_DOWN){
+			mLastTilterState = mTilterState;
+		}
+		mTilterState = TilterState.TILTER_DOWN;
+	}
+	
+	public void tilterUp(){
+		if (mTilterState != TilterState.TILTER_UP){
+			mLastTilterState = mTilterState;
+		}
+		mTilterState = TilterState.TILTER_UP;
+	}
+	
+	public void stopTilter(){
+		if (mTilterState != TilterState.NEUTRAL){
+			mLastTilterState = mTilterState;
+		}
+		mTilterState = TilterState.NEUTRAL;
+	}
+	
+	
+	
+	private void tilterUpPosition() {
 		mTilterDownSolenoid.set(true);
 		mTilterUpSolenoid.set(false);
 	}
 	
-	public void tilterDown() {
+	private void tilterDownPosition() {
 		mTilterDownSolenoid.set(false);
 		mTilterUpSolenoid.set(true);
 	}
 	
-	public void stopTilter()
+	private void stopTilterPosition()
 	{
 		mTilterDownSolenoid.set(false);
 		mTilterUpSolenoid.set(false);
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

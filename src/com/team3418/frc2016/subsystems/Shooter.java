@@ -36,7 +36,7 @@ public class Shooter extends Subsystem
 	}
 
     public enum ShooterState {
-    	SPOOL_FAST, SPOOL_SLOW, INTAKE_SLOW, INTAKE_FAST, MOTORS_STOP
+    	SPOOL_FAST, SPOOL_SLOW, INTAKE_FAST, INTAKE_SLOW, MOTORS_STOP
     }
     
     public enum ShooterReadyState {
@@ -46,14 +46,6 @@ public class Shooter extends Subsystem
 	private ShooterState mShooterState;
 	private ShooterReadyState mShooterReadyState;
 
-	public void setShooterState(ShooterState state)
-	{
-		mShooterState = state;
-	}
-	
-	public void setShooterReadyState(ShooterReadyState state) {
-		mShooterReadyState = state;
-	}
 	
 	public ShooterState getShooterState() {
 		return mShooterState;
@@ -89,12 +81,34 @@ public class Shooter extends Subsystem
 		
 		//update shooter ready state
 		if (mRightShooterMotor.getEncVelocity() > 37000  && mLeftShooterMotor.getEncVelocity() < -37000) {
-			setShooterReadyState(ShooterReadyState.READY);
+			mShooterReadyState = ShooterReadyState.READY;
 		} else {
-			setShooterReadyState(ShooterReadyState.NOT_READY);
+			mShooterReadyState = ShooterReadyState.NOT_READY;
 		}
 		
 	}
+	
+	public void intakeFase(){
+		mShooterState = ShooterState.INTAKE_FAST;
+	}
+	
+	public void intakeSlow(){
+		mShooterState = ShooterState.INTAKE_SLOW;
+	}
+	
+	public void spoolFast(){
+		mShooterState = ShooterState.SPOOL_FAST;
+	}
+	
+	public void spoolSlow(){
+		mShooterState = ShooterState.SPOOL_SLOW;
+	}
+	
+	public void stopShooterMotors(){
+		mShooterState = ShooterState.MOTORS_STOP;
+	}
+	
+	
 	
 	public void printEncoderVelocity() {
 		System.out.println("left enc velocity "+mLeftShooterMotor.getEncVelocity());
@@ -102,11 +116,15 @@ public class Shooter extends Subsystem
 	}
 	
 	
-	
-	
 	private void setSpeed(double left, double right) {
 		mLeftShooterMotor.set(left);
 		mRightShooterMotor.set(right);
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

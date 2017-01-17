@@ -23,11 +23,6 @@ public class Popper extends Subsystem
     }
 	
 	private PopperState mPopperState;
-
-	public void setPopperState(PopperState state)
-	{
-		mPopperState = state;
-	}
 	
 	public PopperState getPopperState() {
 		return mPopperState;
@@ -50,8 +45,25 @@ public class Popper extends Subsystem
 		}
 	}
 	
+	public void pop(){
+		mPopperState = PopperState.POP;
+	}
+	
+	public void noPop(){
+		mPopperState = PopperState.NO_POP;
+	}
+	
+	
+	
+	
 	private void setPoppper(boolean popper) {
 		mPopperSolenoid.set(popper);
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

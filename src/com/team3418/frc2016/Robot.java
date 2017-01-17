@@ -4,10 +4,8 @@ package com.team3418.frc2016;
 import com.team3418.frc2016.Constants;
 import com.team3418.frc2016.subsystems.*;
 import com.team3418.frc2016.subsystems.Intake.*;
-import com.team3418.frc2016.subsystems.Popper.*;
 import com.team3418.frc2016.subsystems.Shooter.*;
 import com.team3418.frc2016.subsystems.Tilter.TilterState;
-import com.team3418.frc2016.subsystems.UtilityArms.UtilityArmsState;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
@@ -42,12 +40,12 @@ public class Robot extends IterativeRobot {
     
     private void stopAllSubsystems()
 	{
-    	mShooter.setShooterState(ShooterState.MOTORS_STOP);
-    	mIntake.setIntakeRailState(IntakeRailState.RETRACTED);
-    	mIntake.setIntakeRollerState(IntakeRollerState.ROLLER_STOP);
-    	mPopper.setPopperState(PopperState.NO_POP);
-    	mTilter.setTilterState(TilterState.NEUTRAL);
-    	mUtilityArms.setUtilityArmsState(UtilityArmsState.ARMS_STOP);
+    	mShooter.stopShooterMotors();
+    	mIntake.retract();
+    	mIntake.stopRoller();
+    	mPopper.noPop();
+    	mTilter.stopTilter();
+    	mUtilityArms.stopArms();
 	}
     
     private void updateAllSubsystems() {
@@ -102,11 +100,11 @@ public class Robot extends IterativeRobot {
     	
     	// popper control
     	if (mControls.getFireButton() && mShooter.getShooterReadyState() == ShooterReadyState.READY) {
-    		mPopper.setPopperState(PopperState.POP);
+    		mPopper.pop();
     	} else if(mIntake.getIntakeRollerState() == IntakeRollerState.ROLLER_OUT) {
-    		mPopper.setPopperState(PopperState.POP);
+    		mPopper.pop();
     	} else {	
-		mPopper.setPopperState(PopperState.NO_POP);
+		mPopper.noPop();
     	}
     	//
     	
@@ -115,63 +113,62 @@ public class Robot extends IterativeRobot {
     	// shooter motor control
     	if (mTilter.getLastTilterState() == TilterState.TILTER_UP) {
     		if (mControls.getShooterMotorButton()) {
-    			mShooter.setShooterState(ShooterState.SPOOL_FAST);
+    			mShooter.spoolFast();
     		} else if (mControls.getShooterMotorReverseButton()) {
-    			mShooter.setShooterState(ShooterState.INTAKE_SLOW);
+    			mShooter.intakeSlow();
     		} else {
-    			mShooter.setShooterState(ShooterState.MOTORS_STOP);
+    			mShooter.stopShooterMotors();
     		}
     	} else if (mTilter.getLastTilterState() == TilterState.TILTER_DOWN) {
     		if(mIntake.getIntakeRollerState() == IntakeRollerState.ROLLER_OUT) {
-    			mShooter.setShooterState(ShooterState.SPOOL_SLOW);
+    			mShooter.spoolSlow();
     		} else if (mIntake.getIntakeRollerState() == IntakeRollerState.ROLLER_IN) {
-    			mShooter.setShooterState(ShooterState.INTAKE_SLOW);
+    			mShooter.intakeSlow();
     		} else if (mIntake.getIntakeRollerState() == IntakeRollerState.ROLLER_STOP) {
-    			mShooter.setShooterState(ShooterState.MOTORS_STOP);
+    			mShooter.stopShooterMotors();
     		}
     	}
     	//
     	
     	// intake control
     	
-    	
     	//extend / retract button logic
     	if (mControls.getExtendIntakeButton()) {
-    		mIntake.setIntakeRailState(IntakeRailState.EXTENDED);
-    		mIntake.setIntakeRollerState(IntakeRollerState.ROLLER_IN);
+    		mIntake.extend();
+    		mIntake.rollerIn();
     	} else if (mControls.getRetractIntakeButton()) {
-    		mIntake.setIntakeRailState(IntakeRailState.RETRACTED);
-    		mIntake.setIntakeRollerState(IntakeRollerState.ROLLER_IN);
+    		mIntake.retract();
+    		mIntake.rollerIn();
     	} else if (mIntake.getIntakeRailState() == IntakeRailState.RETRACTED && !mControls.getReverseIntakeRollerButton()) {
-    		mIntake.setIntakeRollerState(IntakeRollerState.ROLLER_STOP);
+    		mIntake.stopRoller();
     	}
     	
     	//reverse button logic
     	if (mControls.getReverseIntakeRollerButton()) {
-			mIntake.setIntakeRollerState(IntakeRollerState.ROLLER_OUT);
+			mIntake.rollerOut();
 		} else if (mIntake.getIntakeRailState() == IntakeRailState.EXTENDED) {
-			mIntake.setIntakeRollerState(IntakeRollerState.ROLLER_IN);
+			mIntake.rollerIn();
 		}
     	//
     	
     	
     	// tilter control
     	if (mControls.getTilterUpButton()) {
-    		mTilter.setTilterState(TilterState.TILTER_UP);
+    		mTilter.tilterUp();
     	} else if(mControls.getTilterDownButton()) {
-    		mTilter.setTilterState(TilterState.TILTER_DOWN);
+    		mTilter.tilterDown();
     	} else {
-    		mTilter.setTilterState(TilterState.NEUTRAL);
+    		mTilter.stopTilter();
     	}
     	//
     	
     	// utility arms contorl
     	if (mControls.getUtilityArmForwardButton()) {
-    		mUtilityArms.setUtilityArmsState(UtilityArmsState.ARMS_FORWARD);
+    		mUtilityArms.armsForwards();
     	} else if (mControls.getUtilityArmBackwardButton()) {
-    		mUtilityArms.setUtilityArmsState(UtilityArmsState.ARMS_BACKWARDS);
+    		mUtilityArms.armsBackwards();
     	} else {
-    		mUtilityArms.setUtilityArmsState(UtilityArmsState.ARMS_STOP);
+    		mUtilityArms.stopArms();
     	}
     	
     	

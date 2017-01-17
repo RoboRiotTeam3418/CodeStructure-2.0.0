@@ -33,17 +33,9 @@ public class Intake extends Subsystem
 	
 	private IntakeRailState mIntakeRailState;
 	private IntakeRollerState mIntakeRollerState;
-
-	public void setIntakeRailState(IntakeRailState state) {
-		mIntakeRailState = state;
-	}
 	
 	public IntakeRailState getIntakeRailState() {
 		return mIntakeRailState;
-	}
-	
-	public void setIntakeRollerState(IntakeRollerState state) {
-		mIntakeRollerState = state;
 	}
 
 	public IntakeRollerState getIntakeRollerState() {
@@ -80,12 +72,42 @@ public class Intake extends Subsystem
 		}
 	}
 	
+	public void extend(){
+		mIntakeRailState = IntakeRailState.EXTENDED;
+	}
+	
+	public void retract(){
+		mIntakeRailState = IntakeRailState.RETRACTED;
+	}
+	
+	
+	public void rollerIn(){
+		mIntakeRollerState = IntakeRollerState.ROLLER_IN;
+	}
+	
+	public void rollerOut(){
+		mIntakeRollerState = IntakeRollerState.ROLLER_OUT;
+	}
+	
+	public void stopRoller(){
+		mIntakeRollerState = IntakeRollerState.ROLLER_STOP;
+	}
+	
+	
+	
+	
 	private void setRails(boolean rail) {
 		mIntakeRails.set(rail);
 	}
 
 	private void setRollerSpeed(double speed) {
 		mIntakeSpinner.set(speed);
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
