@@ -33,6 +33,14 @@ public class Shooter extends Subsystem
 		mRightShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
 		mRightShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
 		mRightShooterMotor.configPeakOutputVoltage(+12.0f, -12.0f);
+		
+		
+		
+		/*
+		mRightShooterMotor.setPID(p, i, d);
+		mRightShooterMotor.changeControlMode(TalonControlMode.Speed);
+		mRightShooterMotor.set(0);
+		*/
 	}
 
     public enum ShooterState {
