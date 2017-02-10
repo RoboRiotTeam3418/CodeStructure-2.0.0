@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot {
     }
     
     
-    @Override
+    //@Override
     public void robotInit() {
     	//set initial wanted states for all subsystems
     	stopAllSubsystems();
@@ -65,31 +65,31 @@ public class Robot extends IterativeRobot {
     	mGyro.calibrate();
     }
     
-    @Override
+    //@Override
     public void disabledInit() {
     	stopAllSubsystems();
     	updateAllSubsystems();
     }
     
-    @Override
+    //@Override
     public void autonomousInit() {
     	stopAllSubsystems();
     	updateAllSubsystems();
     }
     
-    @Override
+    //@Override
     public void teleopInit() {
     	//set subsystems to state wanted at beginning of teleop
     	stopAllSubsystems();
     	updateAllSubsystems();
     	}
     
-    @Override
+    //@Override
     public void disabledPeriodic() {
     	
     }
     
-    @Override
+    //@Override
     public void teleopPeriodic() {
     	//set states of subsystems depending on operator controls or the state of other subsystems
     	
